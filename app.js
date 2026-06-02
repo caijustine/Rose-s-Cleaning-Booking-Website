@@ -1,3 +1,16 @@
+// Tell the browser not to restore scroll position on reload/back-forward.
+history.scrollRestoration = 'manual';
+
+// Clear any hash from the URL and snap to top — runs before DOMContentLoaded.
+if (window.location.hash) {
+  history.replaceState(null, document.title, window.location.pathname + window.location.search);
+}
+window.scrollTo(0, 0);
+
+// Belt-and-suspenders: also reset on the load event (fires after browser
+// finishes its own anchor-scroll attempt).
+window.addEventListener('load', () => window.scrollTo(0, 0));
+
 /**
  * ROSE'S CLEANING & JANITORIAL - BOTANICAL MOTION ENGINE
  * Created for: Rose's Cleaning and Janitorial
@@ -13,6 +26,12 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+
+  // On desktop, swap the SMS text button to a pre-filled email instead
+  const textBtn = document.getElementById('text-contact-btn');
+  if (textBtn && !/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+    textBtn.href = 'mailto:brambilarosie773@gmail.com?subject=Quote%20Request&body=Hi%20Rose%20and%20Maria!%20I%27d%20like%20to%20request%20a%20quote.';
+  }
   
   // ==========================================
   // 1. SCROLL REVEAL ENGINE (Intersection Observer)
@@ -200,7 +219,9 @@ document.addEventListener('DOMContentLoaded', () => {
     outputPrice.textContent = `$${rangeLow} - $${rangeHigh}`;
     
     const customMessage = `Hi Rose and Maria! I used your estimator. I'd like a quote for a ${service} cleaning of my ${size} sq ft home with ${beds} beds and ${baths} baths.`;
-    ctaBtn.href = `#contact?notes=${encodeURIComponent(customMessage)}&service=${service}`;
+    // Store params for form auto-fill — never write to URL hash (causes reload scroll)
+    ctaBtn.dataset.calcService = service;
+    ctaBtn.dataset.calcNotes = customMessage;
   }
 
   const calculatorInputs = [selectService, inputSize, selectBeds, selectBaths];
@@ -210,28 +231,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
   calculateEstimate();
 
+  // Scroll to contact and pass data via sessionStorage — no URL hash written
+  ctaBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    sessionStorage.setItem('calc_service', ctaBtn.dataset.calcService || '');
+    sessionStorage.setItem('calc_notes', ctaBtn.dataset.calcNotes || '');
+    document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+  });
+
 
   // ==========================================
   // 6. AUTO-FILL FORM FROM CALCULATOR CTA
   // ==========================================
   function parseUrlParams() {
-    if (window.location.hash.includes('?')) {
-      const queryString = window.location.hash.split('?')[1];
-      const params = new URLSearchParams(queryString);
-      
-      const serviceParam = params.get('service');
-      const notesParam = params.get('notes');
-      
-      if (serviceParam) {
-        document.getElementById('contact-service').value = serviceParam;
-      }
-      if (notesParam) {
-        document.getElementById('contact-notes').value = notesParam;
-      }
+    const serviceParam = sessionStorage.getItem('calc_service');
+    const notesParam = sessionStorage.getItem('calc_notes');
+
+    if (serviceParam) {
+      const el = document.getElementById('contact-service');
+      if (el) el.value = serviceParam;
+      sessionStorage.removeItem('calc_service');
+    }
+    if (notesParam) {
+      const el = document.getElementById('contact-notes');
+      if (el) el.value = notesParam;
+      sessionStorage.removeItem('calc_notes');
     }
   }
 
-  window.addEventListener('hashchange', parseUrlParams);
   parseUrlParams();
 
 
@@ -260,6 +287,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  const formError = document.getElementById('form-error-msg');
+
   contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
     let isValid = true;
@@ -270,26 +299,39 @@ document.addEventListener('DOMContentLoaded', () => {
     const notesInput = document.getElementById('contact-notes');
     const serviceSelect = document.getElementById('contact-service');
 
-    const inputsToValidate = [nameInput, emailInput, phoneInput, notesInput];
-
-    inputsToValidate.forEach(input => {
+    // Reset styles
+    [nameInput, emailInput, phoneInput, notesInput].forEach(input => {
       input.style.borderColor = '';
-      if (!input.value.trim()) {
-        input.style.borderColor = '#c98e91';
-        isValid = false;
-      }
     });
+    formError.style.display = 'none';
 
+    // Only name and phone are required — email and notes are optional
+    if (!nameInput.value.trim()) {
+      nameInput.style.borderColor = '#c98e91';
+      isValid = false;
+    }
+    if (!phoneInput.value.trim()) {
+      phoneInput.style.borderColor = '#c98e91';
+      isValid = false;
+    }
+
+    // Validate email format only if they filled it in
     if (emailInput.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value.trim())) {
       emailInput.style.borderColor = '#c98e91';
       isValid = false;
     }
 
-    if (isValid) {
-      const serviceLabel = serviceSelect.options[serviceSelect.selectedIndex].text;
-      const smsBody = `Hi Rose and Maria! My name is ${nameInput.value.trim()}. I'd like to request a ${serviceLabel}. My email: ${emailInput.value.trim()}. My number: ${phoneInput.value.trim()}. Notes: ${notesInput.value.trim()}`;
-      // Opens the device's native SMS app pre-filled — customer just hits send
-      window.location.href = `sms:4352659950?body=${encodeURIComponent(smsBody)}`;
+    if (!isValid) {
+      formError.style.display = 'block';
+      return;
     }
+
+    const serviceLabel = serviceSelect.options[serviceSelect.selectedIndex].text;
+    const email = emailInput.value.trim() ? `Email: ${emailInput.value.trim()}. ` : '';
+    const notes = notesInput.value.trim() ? `Notes: ${notesInput.value.trim()}` : '';
+    const smsBody = `Hi Rose and Maria! My name is ${nameInput.value.trim()}. I'd like to request a ${serviceLabel}. My number: ${phoneInput.value.trim()}. ${email}${notes}`;
+
+    // +1 country code for best iOS/Android compatibility
+    window.location.href = `sms:+14352659950?body=${encodeURIComponent(smsBody)}`;
   });
 });

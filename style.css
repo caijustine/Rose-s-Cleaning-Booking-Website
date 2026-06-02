@@ -46,8 +46,8 @@
   /* Deeper rose for hover/contrast */
   --color-rose-light: #fedcd9;
   /* Pale rose for soft backgrounds */
-  --color-rose-wine: #5c2d30;
-  /* Deep wine rose for top bar, footer */
+  --color-rose-wine: #3d5a4e;
+  /* Deep sage for top bar, footer */
   --color-rose-mid: #f7b2ce;
   /* Soft mid-tone rose */
 
@@ -112,73 +112,76 @@ html {
 
 body {
   font-family: var(--font-sans);
-  background-color: var(--color-cream-bg);
+  background:
+    radial-gradient(ellipse at 18% 22%, rgba(247, 178, 206, 0.55) 0%, transparent 46%),
+    radial-gradient(ellipse at 82% 68%, rgba(242, 161, 176, 0.45) 0%, transparent 46%),
+    radial-gradient(ellipse at 60% 8%,  rgba(255, 210, 225, 0.42) 0%, transparent 36%),
+    linear-gradient(125deg,
+      #fff0e9  0%,
+      #fde4ec 16%,
+      #f7b2ce 32%,
+      #fde8eb 50%,
+      #fedcd9 66%,
+      #f9c5d1 82%,
+      #fff0e9 100%
+    );
+  background-size: 300% 300%;
+  background-attachment: fixed;
+  animation: ribbon-flow 22s ease-in-out infinite;
   color: var(--color-text-main);
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
 
-/* CLIMBING VINE BACKGROUND DECORATIONS */
+@keyframes ribbon-flow {
+  0%   { background-position: 0%   50%; }
+  25%  { background-position: 75%  20%; }
+  50%  { background-position: 100% 65%; }
+  75%  { background-position: 30% 100%; }
+  100% { background-position: 0%   50%; }
+}
+
+/* Disable fixed attachment on mobile — iOS Safari perf */
+@media (max-width: 768px) {
+  body {
+    background-attachment: scroll;
+    background-size: 400% 400%;
+  }
+}
+
+/* Vine decorations removed — using animated ribbon gradient as background */
 .vine-left,
 .vine-right {
-  position: fixed;
-  top: 0;
-  width: 130px;
-  height: 100vh;
-  z-index: -1;
-  pointer-events: none;
-  opacity: 1;
-  overflow: hidden;
+  display: none;
 }
 
-.vine-left {
-  left: 0;
-}
-
-.vine-right {
-  right: 0;
-  transform: scaleX(-1);
-}
-
-.vine-left img,
-.vine-right img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-}
-
-/* Rose pattern background — very subtle whisper texture */
+/* Rose pattern texture removed — ribbon gradient provides all background depth */
 body::before {
+  display: none;
+}
+
+/* Drifting glow orbs layered behind all content */
+body::after {
   content: "";
   position: fixed;
   inset: 0;
-  background-image: url("images/Unknown.jpeg");
-  background-size: 420px;
-  background-repeat: repeat;
-  background-attachment: fixed;
-  opacity: 0.04;
-  z-index: -2;
+  background:
+    radial-gradient(ellipse at 70% 15%, rgba(255, 210, 225, 0.55) 0%, transparent 40%),
+    radial-gradient(ellipse at 12% 80%, rgba(247, 178, 206, 0.5)  0%, transparent 42%),
+    radial-gradient(ellipse at 88% 55%, rgba(242, 161, 176, 0.35) 0%, transparent 38%);
   pointer-events: none;
+  z-index: -1;
+  animation: orb-drift 28s ease-in-out infinite alternate;
 }
 
-@media (max-width: 1200px) {
-
-  .vine-left,
-  .vine-right {
-    opacity: 0.22;
-    width: 90px;
-  }
+@keyframes orb-drift {
+  0%   { opacity: 0.6; transform: scale(1)    translate(0,   0);   }
+  33%  { opacity: 0.9; transform: scale(1.05) translate(2%,  -2%); }
+  66%  { opacity: 0.7; transform: scale(0.97) translate(-1%, 3%);  }
+  100% { opacity: 1;   transform: scale(1.08) translate(1%,  1%);  }
 }
 
-@media (max-width: 768px) {
-
-  .vine-left,
-  .vine-right {
-    display: none;
-  }
-}
 
 /* FULL-WIDTH VIDEO BANNER — autoplaying ambient cleaning video */
 .video-banner {
@@ -199,7 +202,7 @@ body::before {
 .video-banner-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, transparent 40%, rgba(92, 45, 48, 0.28));
+  background: linear-gradient(to bottom, transparent 40%, rgba(107, 144, 128, 0.3));
   pointer-events: none;
 }
 
@@ -280,7 +283,7 @@ body::before {
   left: 0;
   right: 0;
   padding: 24px 20px 18px;
-  background: linear-gradient(transparent, rgba(92, 45, 48, 0.55));
+  background: linear-gradient(transparent, rgba(61, 90, 78, 0.5));
   opacity: 0;
   transition: opacity 0.4s ease;
 }
@@ -465,15 +468,27 @@ section + section {
 }
 
 .btn-primary {
-  background-color: var(--color-rose-accent);
+  background: linear-gradient(120deg,
+    var(--color-rose-accent) 0%,
+    var(--color-rose-mid) 45%,
+    var(--color-rose-dark) 100%);
+  background-size: 220% 100%;
+  background-position: 0% 0%;
   color: var(--color-white);
-  box-shadow: 0 4px 15px rgba(242, 161, 176, 0.25);
+  box-shadow: 0 4px 18px rgba(242, 161, 176, 0.3);
+  animation: btn-silk 5s ease-in-out infinite;
 }
 
 .btn-primary:hover {
-  background-color: var(--color-rose-dark);
+  background-position: 100% 0%;
+  animation: none;
   transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(225, 152, 171, 0.3);
+  box-shadow: 0 10px 35px rgba(242, 161, 176, 0.5), 0 0 22px rgba(247, 178, 206, 0.28);
+}
+
+@keyframes btn-silk {
+  0%, 100% { background-position: 0%   0%; }
+  50%       { background-position: 100% 0%; }
 }
 
 .btn-secondary {
@@ -712,7 +727,7 @@ nav a:hover {
 .hero {
   position: relative;
   padding: clamp(100px, 14vw, 180px) 0;
-  background: linear-gradient(160deg, #fff0e9 0%, #fedcd9 100%);
+  background: transparent;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -953,6 +968,58 @@ nav a:hover {
   display: none;
 }
 
+/* ABOUT BAND — compact centered mission strip between hero and services */
+.about-band {
+  background: var(--color-white);
+  padding: clamp(70px, 8vw, 100px) 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.about-band-inner {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.about-band-inner h2 {
+  margin-bottom: 1.5rem;
+}
+
+.about-band-inner .script-accent {
+  text-align: center;
+}
+
+.about-band-text {
+  font-size: 1.08rem;
+  line-height: 1.9;
+  color: var(--color-text-muted);
+  margin-bottom: 2.5rem;
+}
+
+.about-band-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+.about-band-tags span {
+  padding: 9px 20px;
+  border-radius: var(--radius-full);
+  background: var(--color-sage-light);
+  color: var(--color-sage-dark);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: var(--transition-fast);
+}
+
+.about-band-tags span:hover {
+  background: var(--color-sage-med);
+  color: var(--color-white);
+}
+
 .about-grid {
   display: grid;
   grid-template-columns: 0.95fr 1.05fr;
@@ -1100,7 +1167,15 @@ nav a:hover {
 
 /* 11. SERVICES CARDS (SPA GLASS DESIGN) */
 .services {
-  background: var(--color-cream-bg);
+  background: linear-gradient(125deg,
+    rgba(255, 240, 233, 0.92) 0%,
+    rgba(247, 178, 206, 0.32) 24%,
+    rgba(255, 240, 233, 0.88) 50%,
+    rgba(254, 220, 217, 0.42) 76%,
+    rgba(255, 240, 233, 0.92) 100%
+  );
+  background-size: 300% 300%;
+  animation: ribbon-flow 22s ease-in-out infinite;
   position: relative;
   overflow: hidden;
 }
@@ -1708,7 +1783,15 @@ input[type="range"]::-webkit-slider-thumb:hover {
 
 /* 15. TESTIMONIALS (SPA REVIEW BLOCK) */
 .testimonials {
-  background: var(--color-cream-bg);
+  background: linear-gradient(125deg,
+    rgba(255, 240, 233, 0.88) 0%,
+    rgba(242, 161, 176, 0.28) 24%,
+    rgba(255, 240, 233, 0.85) 50%,
+    rgba(247, 178, 206, 0.36) 76%,
+    rgba(255, 240, 233, 0.88) 100%
+  );
+  background-size: 300% 300%;
+  animation: ribbon-flow 22s ease-in-out 4s infinite;
   position: relative;
   overflow: hidden;
 }
@@ -1788,7 +1871,15 @@ input[type="range"]::-webkit-slider-thumb:hover {
 
 /* 16. CONTACT & QUOTE REGISTRATION */
 .contact {
-  background: var(--color-blush-nude);
+  background: linear-gradient(125deg,
+    rgba(254, 220, 217, 0.95) 0%,
+    rgba(242, 161, 176, 0.38) 24%,
+    rgba(254, 220, 217, 0.92) 50%,
+    rgba(247, 178, 206, 0.45) 76%,
+    rgba(254, 220, 217, 0.95) 100%
+  );
+  background-size: 300% 300%;
+  animation: ribbon-flow 22s ease-in-out 8s infinite;
   position: relative;
   overflow: hidden;
 }
@@ -1892,11 +1983,80 @@ input[type="range"]::-webkit-slider-thumb:hover {
   border: 1px solid rgba(242, 161, 176, 0.15);
 }
 
+.form-email-fallback {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin-top: 14px;
+  margin-bottom: 0;
+}
+
+.form-email-fallback a {
+  color: var(--color-rose-accent);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.form-email-fallback a:hover {
+  color: var(--color-rose-dark);
+}
+
 .contact-form-side h3 {
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.2rem;
   text-align: center;
   font-size: 1.8rem;
   font-weight: 500;
+}
+
+.contact-action-btns {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  max-width: 460px;
+  margin: 0 auto;
+}
+
+.contact-action-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  padding: 17px 28px;
+  border-radius: var(--radius-full);
+  text-align: center;
+}
+
+/* Call — sage green primary */
+.contact-action-btn.btn-primary {
+  background: linear-gradient(120deg, var(--color-sage-primary) 0%, var(--color-sage-med) 50%, var(--color-sage-primary) 100%);
+  background-size: 220% 100%;
+  animation: btn-silk 5s ease-in-out infinite;
+  box-shadow: 0 6px 22px rgba(107, 144, 128, 0.35);
+  color: var(--color-white);
+}
+
+.contact-action-btn.btn-primary:hover {
+  background-position: 100% 0%;
+  animation: none;
+  box-shadow: 0 10px 32px rgba(107, 144, 128, 0.5);
+  transform: translateY(-2px);
+}
+
+/* Text + Email — sage outlined */
+.contact-action-btn.btn-secondary {
+  background: rgba(164, 195, 178, 0.15);
+  border: 1.5px solid var(--color-sage-primary);
+  color: var(--color-sage-dark);
+}
+
+.contact-action-btn.btn-secondary:hover {
+  background: var(--color-sage-light);
+  border-color: var(--color-sage-dark);
+  transform: translateY(-2px);
 }
 
 .form-row {
@@ -1907,7 +2067,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
 
 /* 17. FOOTER */
 footer {
-  background: linear-gradient(135deg, var(--color-rose-wine) 0%, #3d1e21 100%);
+  background: linear-gradient(135deg, var(--color-rose-wine) 0%, #1e3329 100%);
   color: rgba(255, 255, 255, 0.85);
   padding: 90px 0 35px;
   position: relative;
@@ -2185,5 +2345,311 @@ footer::before {
   .form-row {
     grid-template-columns: 1fr;
     gap: 0;
+  }
+}
+
+/* 20. SILKY PINK GLOW EFFECTS */
+
+@keyframes pearl-pulse {
+  0%   { opacity: 0.4; transform: scale(1); }
+  100% { opacity: 0.85; transform: scale(1.06); }
+}
+
+@keyframes section-sheen {
+  0%   { transform: translateX(-120%); }
+  55%  { transform: translateX(320%); }
+  100% { transform: translateX(320%); }
+}
+
+/* Trust builders section — drifting silk highlight */
+.trust-builders::after {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: -20%;
+  width: 55%;
+  height: 300%;
+  background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.14) 50%, transparent 70%);
+  animation: section-sheen 9s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.trust-grid {
+  position: relative;
+  z-index: 1;
+}
+
+/* Trust icons — rosy glow on hover */
+.trust-icon {
+  transition: var(--transition-smooth);
+}
+.trust-item:hover .trust-icon {
+  box-shadow: 0 8px 30px rgba(242, 161, 176, 0.35), 0 0 18px rgba(247, 178, 206, 0.25);
+}
+
+/* Contact form card — pearl shimmer highlight + hover glow */
+.contact-form-side {
+  overflow: hidden;
+}
+
+.contact-form-side::before {
+  content: '';
+  position: absolute;
+  top: -40%;
+  right: -25%;
+  width: 65%;
+  height: 180%;
+  background: radial-gradient(ellipse, rgba(255, 255, 255, 0.22) 0%, transparent 68%);
+  pointer-events: none;
+  animation: pearl-pulse 5s ease-in-out infinite alternate;
+  z-index: 0;
+}
+
+.contact-form-side > * {
+  position: relative;
+  z-index: 1;
+}
+
+.contact-form-side:hover {
+  box-shadow: 0 24px 60px rgba(242, 161, 176, 0.28), 0 0 40px rgba(247, 178, 206, 0.15);
+  transition: box-shadow 0.7s ease;
+}
+
+/* Calculator results side — inner pearl glow */
+.calculator-results-side {
+  position: relative;
+  overflow: hidden;
+}
+
+.calculator-results-side::before {
+  content: '';
+  position: absolute;
+  top: -30%;
+  left: -30%;
+  width: 80%;
+  height: 80%;
+  background: radial-gradient(ellipse, rgba(255, 255, 255, 0.28) 0%, transparent 65%);
+  pointer-events: none;
+  animation: pearl-pulse 6s ease-in-out infinite alternate;
+}
+
+/* Owners note — hover lift + rosy glow */
+.owners-note {
+  transition: box-shadow 0.5s ease, transform 0.5s ease;
+}
+
+.owners-note:hover {
+  box-shadow: 0 8px 32px rgba(242, 161, 176, 0.3), 0 0 16px rgba(247, 178, 206, 0.18);
+  transform: translateX(3px);
+}
+
+/* Hero background — subtle animated silk overlay */
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 30% 60%, rgba(255, 255, 255, 0.18) 0%, transparent 55%);
+  pointer-events: none;
+  animation: pearl-pulse 7s ease-in-out infinite alternate;
+  z-index: 2;
+}
+
+/* Pink service card border-top shimmer on hover */
+.service-card:hover {
+  box-shadow: var(--shadow-hover), 0 0 28px rgba(242, 161, 176, 0.15);
+}
+
+/* Author avatar — rosy glow */
+.author-avatar {
+  transition: box-shadow 0.4s ease;
+}
+
+.testimonial-card:hover .author-avatar {
+  box-shadow: 0 0 14px rgba(242, 161, 176, 0.4);
+}
+
+/* === SECTION-WIDE SHIMMER — color-matched per section === */
+
+/* About — white pearl drift */
+.about {
+  overflow: hidden;
+}
+.about::before {
+  content: '';
+  position: absolute;
+  top: -40%;
+  left: -15%;
+  width: 60%;
+  height: 180%;
+  background: radial-gradient(ellipse, rgba(255, 255, 255, 0.55) 0%, transparent 65%);
+  pointer-events: none;
+  animation: pearl-pulse 8s ease-in-out infinite alternate;
+  z-index: 0;
+}
+.about::after {
+  content: '';
+  position: absolute;
+  top: -80%;
+  right: -10%;
+  width: 50%;
+  height: 300%;
+  background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+  animation: section-sheen 13s ease-in-out 2s infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+.about-grid,
+.about-frame-wrapper {
+  position: relative;
+  z-index: 1;
+}
+
+/* Work showcase — blush silk sweep over the photo grid */
+.work-showcase {
+  overflow: hidden;
+}
+.work-showcase::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -20%;
+  width: 55%;
+  height: 100%;
+  background: linear-gradient(115deg, transparent 28%, rgba(255, 240, 233, 0.16) 50%, transparent 72%);
+  animation: section-sheen 11s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Pricing calculator — white/cream pearl glow */
+.pricing-calculator {
+  overflow: hidden;
+}
+.pricing-calculator::before {
+  content: '';
+  position: absolute;
+  top: -30%;
+  right: -15%;
+  width: 55%;
+  height: 160%;
+  background: radial-gradient(ellipse, rgba(255, 255, 255, 0.45) 0%, transparent 62%);
+  pointer-events: none;
+  animation: pearl-pulse 7s ease-in-out 1s infinite alternate;
+  z-index: 0;
+}
+.pricing-calculator::after {
+  content: '';
+  position: absolute;
+  bottom: -80%;
+  left: -10%;
+  width: 50%;
+  height: 280%;
+  background: linear-gradient(115deg, transparent 30%, rgba(255, 240, 233, 0.12) 50%, transparent 70%);
+  animation: section-sheen 14s ease-in-out 1s infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+.calculator-card {
+  position: relative;
+  z-index: 1;
+}
+
+/* Gallery — sage-toned shimmer */
+.gallery {
+  position: relative;
+  overflow: hidden;
+}
+.gallery::before {
+  content: '';
+  position: absolute;
+  top: -80%;
+  left: -15%;
+  width: 55%;
+  height: 280%;
+  background: linear-gradient(115deg, transparent 30%, rgba(164, 195, 178, 0.22) 50%, transparent 70%);
+  animation: section-sheen 12s ease-in-out 3s infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+.gallery::after {
+  content: '';
+  position: absolute;
+  bottom: -10%;
+  right: -15%;
+  width: 55%;
+  height: 65%;
+  background: radial-gradient(ellipse, rgba(204, 227, 222, 0.45) 0%, transparent 65%);
+  pointer-events: none;
+  animation: pearl-pulse 9s ease-in-out infinite alternate;
+  z-index: 0;
+}
+.gallery-intro,
+.ba-slideshow,
+.transform-pairs,
+.luxury-gallery {
+  position: relative;
+  z-index: 1;
+}
+
+/* Testimonials — cream pearl shimmer */
+.testimonials::after {
+  content: '';
+  position: absolute;
+  top: -40%;
+  right: -15%;
+  width: 60%;
+  height: 180%;
+  background: radial-gradient(ellipse, rgba(255, 240, 233, 0.5) 0%, transparent 65%);
+  pointer-events: none;
+  animation: pearl-pulse 8s ease-in-out 0.5s infinite alternate;
+  z-index: 0;
+}
+.testimonials::before {
+  content: '';
+  position: absolute;
+  top: -80%;
+  left: -10%;
+  width: 50%;
+  height: 280%;
+  background: linear-gradient(115deg, transparent 30%, rgba(255, 240, 233, 0.13) 50%, transparent 70%);
+  animation: section-sheen 10s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+.testimonials-grid {
+  position: relative;
+  z-index: 1;
+}
+
+/* Contact section — blush pearl shimmer (form side already has own shimmer) */
+.contact::before {
+  content: '';
+  position: absolute;
+  top: -30%;
+  left: -15%;
+  width: 55%;
+  height: 160%;
+  background: radial-gradient(ellipse, rgba(254, 220, 217, 0.45) 0%, transparent 62%);
+  pointer-events: none;
+  animation: pearl-pulse 7s ease-in-out 2s infinite alternate;
+  z-index: 0;
+}
+.contact-grid {
+  position: relative;
+  z-index: 1;
+}
+
+/* === ABOUT LEFT-SIDE DECORATIVE ELEMENTS === */
+
+
+@keyframes rose-sway {
+  0%   { transform: rotate(-2.5deg); }
+  100% { transform: rotate(2.5deg); }
+}
+
+@media (max-width: 580px) {
+  .about-rose-illustration {
+    display: none;
   }
 }
