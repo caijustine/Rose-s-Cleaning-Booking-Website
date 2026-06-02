@@ -2311,28 +2311,143 @@ footer::before {
     display: flex;
   }
 
-  .slider-wrapper {
-    height: 360px;
+  /* Tighten section padding site-wide on mobile */
+  section {
+    padding: 60px 0;
   }
 
-  .before-image img {
-    width: 768px;
+  .container {
+    padding: 0 20px;
+  }
+
+  /* Hero */
+  .hero {
+    padding: 60px 0 50px;
+  }
+
+  .hero-img-wrapper {
+    height: 340px;
+    border-radius: 120px 120px 60px 60px;
+    max-width: 280px;
+    margin: 0 auto;
+  }
+
+  .hero-trust-row {
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+  }
+
+  .hero-trust-item {
+    font-size: 0.8rem;
+  }
+
+  /* Work showcase */
+  .work-showcase-header {
+    padding: 40px 20px 24px;
+  }
+
+  /* About band */
+  .about-band {
+    padding: 50px 0;
+  }
+
+  .about-band-tags {
+    gap: 8px;
+  }
+
+  .about-band-tags span {
+    font-size: 0.75rem;
+    padding: 7px 14px;
+  }
+
+  /* Services */
+  .services-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .service-card {
+    padding: 36px 28px;
+  }
+
+  /* Calculator */
+  .calculator-form-side {
+    padding: 36px 28px;
+  }
+
+  .calculator-results-side {
+    padding: 36px 28px;
+  }
+
+  /* Trust builders */
+  .trust-grid {
+    gap: 28px;
+  }
+
+  .trust-icon {
+    width: 56px;
+    height: 56px;
+  }
+
+  /* Gallery slideshow */
+  .ba-panel {
+    height: 280px;
+  }
+
+  /* Testimonials */
+  .testimonials-grid {
+    gap: 20px;
+  }
+
+  .testimonial-card {
+    padding: 36px 28px;
+  }
+
+  /* Contact */
+  .contact-info-side h2 {
+    text-align: center;
+  }
+
+  .contact-info-side {
+    text-align: center;
+    padding-right: 0;
+  }
+
+  .contact-methods {
+    align-items: center;
+  }
+
+  .contact-item {
+    flex-direction: column;
+    text-align: center;
+    gap: 8px;
+  }
+
+  .badges-row {
+    justify-content: center;
   }
 
   .contact-form-side {
-    padding: 40px 30px;
+    padding: 36px 24px;
   }
-}
 
-@media (max-width: 580px) {
+  .contact-action-btns {
+    max-width: 100%;
+  }
+
+  /* Footer */
   .footer-grid {
     grid-template-columns: 1fr;
+    gap: 36px;
   }
 
   .footer-brand {
     grid-column: span 1;
   }
+}
 
+@media (max-width: 580px) {
   .footer-bottom {
     flex-direction: column;
     gap: 15px;
@@ -2344,9 +2459,47 @@ footer::before {
     margin-left: 0 !important;
   }
 
+  .hero-cta {
+    gap: 10px;
+  }
+
   .form-row {
     grid-template-columns: 1fr;
     gap: 0;
+  }
+
+  /* Make h2 always centered on small phones */
+  h2 {
+    font-size: clamp(1.7rem, 7vw, 2.2rem);
+  }
+
+  /* Service cards single column with less padding */
+  .service-card {
+    padding: 30px 22px;
+  }
+
+  /* Tighter trust grid */
+  .trust-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .trust-item p {
+    font-size: 0.78rem;
+  }
+
+  /* Gallery pairs stack */
+  .transform-pairs {
+    grid-template-columns: 1fr;
+  }
+
+  /* Footer */
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-brand {
+    grid-column: span 1;
   }
 }
 
