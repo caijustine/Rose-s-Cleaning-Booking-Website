@@ -5,8 +5,8 @@ export const site = {
   name: "Rose's Cleaning & Janitorial",
   shortName: "Rose's Cleaning",
   url: 'https://roses-cleaning.com',
-  phone: '(435) 265-9950',
-  phoneE164: '+14352659950',
+  phone: '(435) 301-4337',
+  phoneE164: '+14353014337',
   email: 'brambilarosie773@gmail.com',
   city: 'St. George',
   region: 'UT',
@@ -166,7 +166,7 @@ export const areas = [
     name: 'St. George',
     lat: 37.0965, lng: -113.5684,
     title: 'House Cleaning in St. George, UT | Rose’s Cleaning & Janitorial',
-    description: 'Local, licensed & insured house cleaning in St. George, UT. Standard, deep, move-out, and office cleaning by Rose & Maria. Free estimates: (435) 265-9950.',
+    description: 'Local, licensed & insured house cleaning in St. George, UT. Standard, deep, move-out, and office cleaning by Rose & Maria. Free estimates: (435) 301-4337.',
     headline: 'House cleaning in St. George, from neighbors who live here too',
     intro: [
       'St. George is home for us, and it is where most of our clients live. From family homes in Little Valley to condos near Downtown and houses tucked up by the Red Hills, we know the area and plan routes so we show up on time.',
@@ -237,7 +237,7 @@ export const faqs = [
   {
     group: 'Booking & estimates',
     items: [
-      { q: 'How do I book a cleaning?', a: 'Call or text Rose or Maria at (435) 265-9950, email us, or send a request through our contact page. We respond the same day, and we will set up a time that works for you.' },
+      { q: 'How do I book a cleaning?', a: 'Call or text Rose or Maria at (435) 301-4337, email us, or send a request through our contact page. We respond the same day, and we will set up a time that works for you.' },
       { q: 'Are estimates really free?', a: 'Yes. Tell us about your home or business and we will give you an honest number upfront, with no pressure and no surprise charges later.' },
       { q: 'What are your hours?', a: 'We clean Monday through Saturday, 8:00 AM to 6:00 PM. Commercial schedules are set with each client.' },
     ],

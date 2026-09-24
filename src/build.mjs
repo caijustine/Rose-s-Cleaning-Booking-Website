@@ -355,7 +355,7 @@ const page = (p) => pages.push(p);
 page({
   path: '/',
   title: 'House Cleaning in St. George, UT | Rose’s Cleaning & Janitorial',
-  description: 'Licensed & insured house cleaning in St. George, UT. Standard, deep, move-in/out & office cleaning by a local family team. Free estimates. Call (435) 265-9950.',
+  description: 'Licensed & insured house cleaning in St. George, UT. Standard, deep, move-in/out & office cleaning by a local family team. Free estimates. Call (435) 301-4337.',
   preload: photos.kitchen.src,
   body: `
     <section class="hero" aria-label="Rose’s Cleaning &amp; Janitorial" data-hero>

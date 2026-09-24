@@ -1,6 +1,6 @@
 // Rose's Cleaning & Janitorial — site interactions
 (() => {
-  const PHONE = '+14352659950';
+  const PHONE = '+14353014337';
   const EMAIL = 'brambilarosie773@gmail.com';
   const isMobile = /Android|iPhone|iPad|iPod|Mobi/i.test(navigator.userAgent);
   const $ = (sel, root = document) => root.querySelector(sel);

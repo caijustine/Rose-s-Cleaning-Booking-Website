@@ -85,4 +85,4 @@ Then run `npm run build` and **commit the updated `public/` folder along with yo
 
 ## Contact
 
-Rose & Maria — (435) 265-9950 · brambilarosie773@gmail.com · St. George, UT
+Rose & Maria — (435) 301-4337 · brambilarosie773@gmail.com · St. George, UT
