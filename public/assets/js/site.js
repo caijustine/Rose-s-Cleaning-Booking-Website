@@ -50,6 +50,11 @@
       menu.classList.toggle('is-open', open);
     });
   });
+  // Menus also open on hover (desktop). Hovering one closes any other menu
+  // that was opened by click, so only one dropdown is ever showing.
+  if (matchMedia('(hover: hover)').matches) {
+    $$('.has-menu').forEach((item) => item.addEventListener('mouseenter', () => closeMenus($('.menu-toggle', item))));
+  }
   document.addEventListener('click', (e) => { if (!e.target.closest('.has-menu')) closeMenus(); });
   document.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape') return;
