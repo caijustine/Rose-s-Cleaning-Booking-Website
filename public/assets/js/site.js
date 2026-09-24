@@ -6,6 +6,15 @@
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
 
+  // ---------- every page starts at the top ----------
+  // Browsers restore the old scroll position on reload and Back/Forward.
+  // Turn that off so each page opens at the top (unless the link targets a
+  // #section on the page, like the FAQ topics).
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  const toTop = () => { if (!location.hash) window.scrollTo({ top: 0, left: 0, behavior: 'instant' }); };
+  toTop();
+  window.addEventListener('pageshow', toTop); // also covers pages restored from the back/forward cache
+
   // ---------- header: shadow on scroll ----------
   const header = $('.site-header');
   const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
