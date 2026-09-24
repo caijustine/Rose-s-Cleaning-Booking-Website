@@ -2,9 +2,14 @@
   "name": "roses-cleaning",
   "version": "1.0.0",
   "scripts": {
-    "start": "serve . --listen $PORT"
+    "build": "node src/build.mjs",
+    "start": "serve public --listen ${PORT:-3000}",
+    "dev": "node src/build.mjs && serve public --listen ${PORT:-3000}"
   },
   "dependencies": {
     "serve": "^14.2.0"
+  },
+  "engines": {
+    "node": ">=18"
   }
 }
